@@ -1,6 +1,6 @@
 # Wikimedia commons category name that have list of files like: "Category:Files uploaded by spell4wiki in ta"
 # Ref: https://commons.wikimedia.org/wiki/Category:Files_uploaded_by_spell4wiki
-category = "Category:Files uploaded by spell4wiki in CHECK"
+category = "Category:Files uploaded by spell4wiki in "
 
 # Optional
 # Count of maximum records you want to download. 
