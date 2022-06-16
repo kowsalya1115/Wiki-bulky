@@ -1,5 +1,3 @@
-# Wiki-bulk-downloader
-
 
 # Wiki bulk downloader
 
