@@ -12,6 +12,7 @@
   
 
 <style>
+
 * {box-sizing: border-box;}
 
 body {
@@ -105,9 +106,10 @@ body {
 </head>
 <body>
 
+
 <div class="topnav">
-  <a class="active" href="#home">Home</a>
-  <a href="#login">Login</a>
+  <a class="active" href="/home">Home</a>
+  <a href="https://login.wikimedia.org/w/index.php?title=Special:UserLogin&returnto=Main+Page">Login</a>
   <div class="search-container">
     <form method="POST">
     {% csrf_token %}
@@ -116,13 +118,49 @@ body {
         <input type="checkbox" value={{i}} name="final_list[]" id="final_list" checked style="opacity: 0;"></label> <!--style="opacity: 0;"-->
       {% endfor %}
       </div>
-      <input type="text" placeholder="search" name="search_value" id="search_value" value={{search}}>
+      <!--<input type="text" placeholder="search" name="search_value" id="search_value" value={{search}}>-->
+      <!--<div class="form-group">-->
+      
+      <table>
+      <thead>
+      <tr>
+        <th style="padding: 2px;">Category:Files uploaded by spell4wiki in</th>
+        <th>
+        <select class="form-control" id="search_value" name="search_value">
+          <option value={{search}}>{{search}}</option>
+          {% for i in categories %}
+          <option value={{i}}>{{i}}</option>
+          {% endfor %}
+        </select>
+          <script>
+        $( function() {
+          var availableTags = [
+              {% for val in categories %}
+                  "{{val}}",
+              {% endfor %}
+          ];
+          $( "#search_value" ).autocomplete({
+            source: availableTags
+          });
+        } );
+        </script>
+        </th>
+        <th style="padding-bottom: 9px;">&nbsp;&nbsp;
+        <button type="submit" name="search" value="search" class="search-container"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search</button>
+        </th>
+      </tr>
+      
+        
+      
+      </thead>
+      </table>   
+      
       
       <!--<input type="text" value={{i}} name="final_list[]" id="final_list">-->
       
       
       <!--<input type="submit" name="search" value="search">-->
-        <button type="submit" name="search" value="search" class="search-container"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search</button>
+        
 
     
   </div>
@@ -138,10 +176,10 @@ body {
 <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Total Number of Files: {{count}}</th>
+        <th>List of Files</th>
         <input type="hidden" value=1 name='flag' />
         
-        <th><button type="submit" name="download" class="btn btn-info">Bulk Download</button>
+        <th><button type="submit" name="download" class="btn btn-info" style="background-color: #2196F3;border-color: #2196F3;">Bulk Download</button>
         <!--<div id="myDIV">
 <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
 </div>-->
