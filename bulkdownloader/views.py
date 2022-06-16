@@ -54,6 +54,8 @@ def get_next_offset(res):
 		return res["continue"]["cmcontinue"]
 	return None
 
+# def login(request):
+#     return render(request, 'wikimedia_page.html')
 
 def home(request):
 
@@ -100,7 +102,25 @@ def home(request):
         d = paginator.page(1)
     except EmptyPage:
         d = paginator.page(paginator.num_pages)
-    return render(request, 'home.html', {'d': d,'count': count, 'search': category,'final_list':final_files_list})
+    params_data = {
+            "action": "query",
+            "format": "json",
+            "list": "categorymembers",
+            "cmtitle": "Category:Files uploaded by spell4wiki",
+            "cmlimit": 500,
+            "cmsort": "timestamp",
+            
+            }
+    R = requests.get(wc_url,params = params_data)
+    #R = S.get(url=URL, params=PARAMS)
+    DATA = R.json()
+    PAGES = DATA["query"]["categorymembers"]
+    cat_list=[]
+    for i in PAGES:
+        if  not (i['title'].startswith("File:")):
+            c=i['title'].split()
+            cat_list.append(c[-1])
+    return render(request, 'home.html', {'d': d,'count': count, 'search': category,'final_list':final_files_list,'categories':cat_list})
 
 # Fetching all file names in particular category
 def fetch_all_file_names_in_category(next_offset, category):
@@ -135,12 +155,6 @@ def fetch_all_file_names_in_category(next_offset, category):
         fetch_all_file_names_in_category(next_offset, category)
     
     return file_names,len(file_names)
-
-
-#print_line()
-#print("Fetching file names....")
-#print("Total files count: " + str(len(final_files_list)))
-#print("Total time for Fetching file names: %.2f secs" % (time.time() - s_time))
 
 # Getting download url from commons html page
 async def get_file_download_link(session, file_name):
@@ -211,7 +225,6 @@ async def fetch_download_links_and_download_file(final_files_list,category):
         print("Please wait %s files are Downloading...." % (str(total_links_count))) 
         download_tasks = []
         for index, dl in enumerate(download_links):
-            print(download_links,"jhfbjbhbbhbfh")
             download_task = asyncio.ensure_future(save_downloaded_file(session, dl, index, total_links_count,category))
             download_tasks.append(download_task)
         download_files = await asyncio.gather(*download_tasks)
