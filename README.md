@@ -7,14 +7,16 @@ It is mainly used for download the bulk files from wikimedia commons by using th
 ```
 
 ```
-Project type - web application
-Language used - Django,Python
+Project type - Web Application
+Language used - Django 4.1.2,Python 3.10.1
 ```
 
 ### To do list
 ```
 1.Project deployment in tools forge
 ```
+
+
 
 
 
